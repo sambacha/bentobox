@@ -1,0 +1,3 @@
+[submodule "kashi-lending"]
+	path = kashi-lending
+	url = https://github.com/sambacha/kashi-lending/
