@@ -6,9 +6,9 @@ import "@boringcrypto/boring-solidity/contracts/libraries/BoringRebase.sol";
 contract RebaseWrapper {
     using BoringMath for uint256;
     using BoringMath128 for uint128;
-	using RebaseLibrary for Rebase;
+    using RebaseLibrary for Rebase;
 
-	Rebase public rebase;
+    Rebase public rebase;
 
     function getElastic() public view returns (uint128) {
         return rebase.elastic;
@@ -36,15 +36,15 @@ contract RebaseWrapper {
         return rebase.toElastic(base, roundUp);
     }
 
-
     function add(uint256 addAmount, bool roundUp) public returns (uint256 base) {
         uint256 addAmountBase;
         (rebase, addAmountBase) = rebase.add(addAmount, roundUp);
         return addAmountBase;
     }
+
     /** Equivalent to add when roundUp parameter is "false", but a bit 
         easier on the smt solver. */
-    function addFloor(uint256 elastic) public  returns (uint256 base) {
+    function addFloor(uint256 elastic) public returns (uint256 base) {
         base = toBaseFloor(elastic);
         rebase.elastic = rebase.elastic.add(elastic.to128());
         rebase.base = rebase.base.add(base.to128());
@@ -65,12 +65,11 @@ contract RebaseWrapper {
         rebase = rebase.sub(subAmount, subShares);
     }
 
-    function addElastic(uint256 elastic) public returns(uint256 newElastic) {
-       return rebase.addElastic(elastic);
+    function addElastic(uint256 elastic) public returns (uint256 newElastic) {
+        return rebase.addElastic(elastic);
     }
 
-    function subElastic(uint256 elastic) public returns(uint256 newElastic) {
-       return rebase.subElastic(elastic);
+    function subElastic(uint256 elastic) public returns (uint256 newElastic) {
+        return rebase.subElastic(elastic);
     }
-
 }

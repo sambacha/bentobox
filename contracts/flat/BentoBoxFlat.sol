@@ -14,7 +14,6 @@
 
 // Special thanks to Keno for all his hard work and support
 
-
 // Version 20-Mar-2021
 
 pragma solidity 0.6.12;
@@ -481,7 +480,8 @@ contract MasterContractManager is BoringOwnable, BoringFactory {
     /// @notice user nonces for masterContract approvals
     mapping(address => uint256) public nonces;
 
-    bytes32 private constant DOMAIN_SEPARATOR_SIGNATURE_HASH = keccak256("EIP712Domain(string name,uint256 chainId,address verifyingContract)");
+    bytes32 private constant DOMAIN_SEPARATOR_SIGNATURE_HASH =
+        keccak256("EIP712Domain(string name,uint256 chainId,address verifyingContract)");
     // See https://eips.ethereum.org/EIPS/eip-191
     string private constant EIP191_PREFIX_FOR_EIP712_STRUCTURED_DATA = "\x19\x01";
     bytes32 private constant APPROVAL_SIGNATURE_HASH =
@@ -567,25 +567,24 @@ contract MasterContractManager is BoringOwnable, BoringFactory {
             // C11: signature is EIP-712 compliant
             // C12 - abi.encodePacked can't contain variable length user input (SWC-133)
             // C12: abi.encodePacked has fixed length parameters
-            bytes32 digest =
-                keccak256(
-                    abi.encodePacked(
-                        EIP191_PREFIX_FOR_EIP712_STRUCTURED_DATA,
-                        DOMAIN_SEPARATOR(),
-                        keccak256(
-                            abi.encode(
-                                APPROVAL_SIGNATURE_HASH,
-                                approved
-                                    ? keccak256("Give FULL access to funds in (and approved to) BentoBox?")
-                                    : keccak256("Revoke access to BentoBox?"),
-                                user,
-                                masterContract,
-                                approved,
-                                nonces[user]++
-                            )
+            bytes32 digest = keccak256(
+                abi.encodePacked(
+                    EIP191_PREFIX_FOR_EIP712_STRUCTURED_DATA,
+                    DOMAIN_SEPARATOR(),
+                    keccak256(
+                        abi.encode(
+                            APPROVAL_SIGNATURE_HASH,
+                            approved
+                                ? keccak256("Give FULL access to funds in (and approved to) BentoBox?")
+                                : keccak256("Revoke access to BentoBox?"),
+                            user,
+                            masterContract,
+                            approved,
+                            nonces[user]++
                         )
                     )
-                );
+                )
+            );
             address recoveredAddress = ecrecover(digest, v, r, s);
             require(recoveredAddress == user, "MasterCMgr: Invalid Signature");
         }

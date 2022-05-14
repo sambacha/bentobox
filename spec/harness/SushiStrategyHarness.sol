@@ -4,9 +4,9 @@ import "./StrategyHarness.sol";
 import "../../contracts/strategies/SushiStrategy.sol";
 
 contract SushiStrategyHarness is StrategyHarness, SushiStrategy {
-    constructor(ISushiBar bar_, IERC20 sushi_) SushiStrategy(bar_, sushi_) public { }
+    constructor(ISushiBar bar_, IERC20 sushi_) public SushiStrategy(bar_, sushi_) {}
 
     function receiver() public returns (address) {
-		return owner;
-	}
+        return owner;
+    }
 }

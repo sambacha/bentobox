@@ -1,3 +1,4 @@
+import '@primitivefi/hardhat-dodoc'
 import 'dotenv/config'
 import '@nomiclabs/hardhat-etherscan'
 import '@nomiclabs/hardhat-solhint'
@@ -301,7 +302,7 @@ const config: HardhatUserConfig = {
     username: process.env.TENDERLY_USERNAME || '',
   },
   typechain: {
-    outDir: 'types',
+    outDir: 'typechain',
     target: 'ethers-v5',
   },
   watcher: {
